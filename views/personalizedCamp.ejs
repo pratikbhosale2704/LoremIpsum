@@ -1,0 +1,178 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Marketing Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
+      <h1 class="text-2xl font-bold">AI Marketing Dashboard</h1>
+      <a href="index.html" class="px-4 py-2 text-white">Home</a>
+    </nav>
+
+    <section class="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-3xl font-semibold mb-4">Create a Marketing Campaign</h2>
+        <input
+          type="text"
+          id="marketingGoal"
+          placeholder="Enter your marketing goal"
+          class="p-3 mb-4 w-full border rounded"
+        />
+        <button
+          id="generateBtn"
+          class="bg-blue-600 text-white p-3 w-full rounded"
+        >
+          Generate Campaign
+        </button>
+        <div
+          id="campaignResult"
+          class="mt-6 text-green-600 font-semibold"
+        ></div>
+      </div>
+    </section>
+
+    <footer class="bg-blue-600 text-white p-4 text-center">
+      <p>&copy; 2025 AI Marketing Solutions. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Marketing Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      nav {
+        background-color: #007bff;
+        padding: 1rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 15px;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+      }
+      .card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #campaignResult {
+        margin-top: 15px;
+        color: green;
+        font-weight: bold;
+      }
+      footer {
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <h1>AI Marketing Dashboard</h1>
+      <a href="http://localhost:8080/home">Home</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>Create a Marketing Campaign</h2>
+        <input
+          type="text"
+          id="marketingGoal"
+          placeholder="Enter your marketing goal"
+        />
+        <button id="generateBtn">Generate Campaign</button>
+        <div id="campaignResult"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 AI Marketing Solutions. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+      document
+        .getElementById("generateBtn")
+        .addEventListener("click", async () => {
+          const marketingGoal = document.getElementById("marketingGoal").value;
+
+          if (!marketingGoal) {
+            alert("Please enter a marketing goal.");
+            return;
+          }
+
+          try {
+            const response = await fetch("http://localhost:8080/predict", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ input: marketingGoal }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to fetch AI response");
+            }
+
+            const data = await response.json();
+            document.getElementById("campaignResult").innerText =
+              data.prediction;
+          } catch (error) {
+            console.error("Error:", error);
+            document.getElementById("campaignResult").innerText =
+              "Failed to generate campaign. Please try again.";
+          }
+        });
+    </script>
+  </body>
+</html>

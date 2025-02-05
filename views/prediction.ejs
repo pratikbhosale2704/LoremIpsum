@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predictive Insights for Campaigns - AI Marketing Solutions</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
+      <h1 class="text-2xl font-bold">AI Marketing</h1>
+      <div>
+        <a href="http://localhost:8080/home" class="px-4 py-2 text-white"
+          >Home</a
+        >
+        <a href="http://localhost:8080/pricing" class="px-4 py-2 text-white"
+          >Pricing</a
+        >
+        <a href="http://localhost:8080/about" class="px-4 py-2 text-white"
+          >About Us</a
+        >
+        <a href="http://localhost:8080/contact" class="px-4 py-2 text-white"
+          >Contact</a
+        >
+      </div>
+    </nav>
+
+    <section class="flex items-center justify-center min-h-screen bg-gray-100">
+      <div
+        class="text-center p-10 bg-white rounded-lg shadow-lg w-full max-w-4xl"
+      >
+        <h2 class="text-4xl font-semibold mb-6">
+          Predictive Insights for Campaigns
+        </h2>
+        <p class="text-lg mb-6">
+          Predict the success of your marketing campaigns by analyzing
+          historical consumer data and trends.
+        </p>
+
+        <!-- Form for Inputting Historical Data -->
+        <!-- <form action="/predict-campaign" method="POST" class="space-y-6">
+          <div class="text-left">
+            <label for="campaignData" class="block text-lg font-medium mb-2"
+              >Upload Historical Campaign Data (CSV)</label
+            >
+            <input
+              type="file"
+              id="campaignData"
+              name="campaignData"
+              accept=".csv"
+              class="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+
+          <div class="text-left">
+            <label
+              for="customerDemographics"
+              class="block text-lg font-medium mb-2"
+              >Upload Customer Demographics Data (CSV)</label
+            >
+            <input
+              type="file"
+              id="customerDemographics"
+              name="customerDemographics"
+              accept=".csv"
+              class="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300"
+          >
+            Predict Campaign Success
+          </button>
+        </form> -->
+
+        <form
+          action="/predict-campaign"
+          method="POST"
+          enctype="multipart/form-data"
+          class="space-y-6"
+        >
+          <div class="text-left">
+            <label for="combinedData" class="block text-lg font-medium mb-2"
+              >Upload Combined Campaign and Demographics Data (CSV)</label
+            >
+            <input
+              type="file"
+              id="combinedData"
+              name="combinedData"
+              accept=".csv"
+              class="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+            <p class="text-sm text-gray-500 mt-2">
+              Please upload a CSV file containing both campaign performance
+              metrics and customer demographics.
+              <br />
+              Example columns:
+              <code
+                >Campaign ID, Engagement Rate, Conversion Rate, Revenue,
+                Customer ID, Age, Gender, Location, Income Level</code
+              >.
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300"
+          >
+            Predict Campaign Success
+          </button>
+        </form>
+
+        <!-- Display Prediction Results -->
+        <% if (predictionResult) { %>
+        <div class="mt-8 p-6 bg-blue-50 rounded-lg">
+          <h3 class="text-2xl font-semibold mb-4">Prediction Results</h3>
+          <p class="text-lg">
+            The predicted success rate for your campaign is:
+            <span class="font-bold text-blue-600"
+              ><%= predictionResult %>%</span
+            >
+          </p>
+        </div>
+        <% } %>
+      </div>
+    </section>
+
+    <footer class="bg-blue-600 text-white p-4 text-center">
+      <p>&copy; 2025 AI Marketing Solutions. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

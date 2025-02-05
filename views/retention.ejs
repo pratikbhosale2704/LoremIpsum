@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Retention and Loyalty Programs - AI Marketing Solutions</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
+    <h1 class="text-2xl font-bold">AI Marketing</h1>
+    <div>
+      <a href="http://localhost:8080/home" class="px-4 py-2 text-white">Home</a>
+      <a href="http://localhost:8080/pricing" class="px-4 py-2 text-white">Pricing</a>
+      <a href="http://localhost:8080/about" class="px-4 py-2 text-white">About Us</a>
+      <a href="http://localhost:8080/contact" class="px-4 py-2 text-white">Contact</a>
+    </div>
+  </nav>
+
+  <section class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="text-center p-10 bg-white rounded-lg shadow-lg w-full max-w-4xl">
+      <h2 class="text-4xl font-semibold mb-6">
+        Customer Retention and Loyalty Programs
+      </h2>
+      <p class="text-lg mb-6">
+        Predict customer engagement and churn likelihood, and generate personalized retention strategies.
+      </p>
+
+      <!-- Form for Inputting Customer Data -->
+      <form action="/predict-retention" method="POST" class="space-y-6" enctype="multipart/form-data">
+        <div class="text-left">
+          <label for="customerData" class="block text-lg font-medium mb-2">Upload Customer Data (CSV)</label>
+          <input type="file" id="customerData" name="customerData" accept=".csv"
+            class="w-full p-3 border border-gray-300 rounded-lg" required />
+          <p class="text-sm text-gray-500 mt-2">
+            Please upload a CSV file containing customer data.
+            <br />
+            Example columns:
+            <code>Customer ID, Age, Gender, Location, Income Level, Purchase Frequency, Last Purchase Date, Total Spend</code>.
+          </p>
+        </div>
+
+        <button type="submit"
+          class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300">
+          Predict Engagement and Churn
+        </button>
+      </form>
+
+      <!-- Display Prediction Results -->
+      <% if (predictionResult) { %>
+        <div class="mt-8 p-6  rounded-lg" id="bg-coloor">
+          <h3 class="text-2xl font-semibold mb-4">Prediction Results</h3>
+          <div class="text-left space-y-4">
+            <p class="text-lg">
+              <span class="font-bold">Engagement Score:</span>
+              <span class="text-blue-600">
+                <%= predictionResult.engagementScore %>%
+              </span>
+            </p>
+            <p class="text-lg">
+              <span class="font-bold">Churn Likelihood:</span>
+              <span class="text-blue-600">
+                <%= predictionResult.churnLikelihood %>%
+              </span>
+            </p>
+            <p class="text-lg">
+              <span class="font-bold">Retention Strategies:</span>
+            <ul class="list-disc list-inside">
+              <% predictionResult.retentionStrategies.forEach(strategy=> { %>
+                <li>
+                  <%= strategy %>
+                </li>
+                <% }); %>
+            </ul>
+            </p>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </section>
+
+  <footer class="bg-blue-600 text-white p-4 text-center">
+    <p>&copy; 2025 AI Marketing Solutions. All Rights Reserved.</p>
+  </footer>
+</body>
+
+</html>

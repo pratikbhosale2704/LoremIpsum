@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business AI Solutions</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <h1>AI Business Solutions</h1>
+      <a href="http://localhost:8080/home" class="active">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <!-- Business Registration Form -->
+    <section>
+      <form action="/dashboard" method="post">
+        <h3>Register Your Business</h3>
+
+        <label for="business-name">Business Name</label>
+        <input
+          type="text"
+          id="business-name"
+          name="businame"
+          placeholder="Enter your business name"
+          required
+        />
+
+        <label for="business-type">Business Type</label>
+        <select id="business-type" name="busitype" required>
+          <option value="">Select Business Type</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="retail">Retail</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="consulting">Consulting</option>
+          <option value="fitness">Fitness & Wellness</option>
+          <option value="real-estate">Real Estate</option>
+          <option value="tech">Tech/Software</option>
+          <option value="education">Education & Training</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="finance">Finance</option>
+          <option value="manufacturing">Manufacturing</option>
+          <option value="logistics">Logistics</option>
+          <option value="construction">Construction</option>
+          <option value="marketing-agency">Marketing Agency</option>
+          <option value="non-profit">Non-Profit</option>
+          <option value="legal-services">Legal Services</option>
+          <option value="travel">Travel & Tourism</option>
+          <option value="automotive">Automotive</option>
+          <option value="home-improvement">Home Improvement</option>
+          <option value="beauty-salon">Beauty Salon</option>
+          <option value="event-planning">Event Planning</option>
+        </select>
+
+        <label for="business-description">Business Description</label>
+        <textarea
+          id="business-description"
+          name="busidescri"
+          rows="4"
+          placeholder="Describe your business"
+          required
+        ></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 AI Business Solutions. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>
