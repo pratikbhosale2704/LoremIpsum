@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const Busi = require("./models/busi.js");
+const Msg = require("./models/message.js");
 const methodOverride = require("method-override");
 const axios = require("axios");
 const cors = require("cors");
@@ -97,7 +98,7 @@ app.post("/predict", async (req, res) => {
           {
             parts: [
               {
-                text: `Generate a marketing campaign for: ${userInput}`,
+                text: `Generate a marketing campaign for  : ${userInput} (dont give text in bold form not even headings and give required information in short )`,
               },
             ],
           },
@@ -131,6 +132,27 @@ app.get("/dashboard", async (req, res) => {
   //   res.render("dashboard.ejs", { business });
   res.render("dashboard.ejs");
   //   res.send("data stored");
+});
+
+app.post("/home", async (req, res) => {
+  let { name, email, msg } = req.body;
+  let newMsg = new Msg({
+    name: name,
+    email: email,
+    msg: msg,
+    created_at: new Date(),
+  });
+  newMsg
+    .save()
+    .then(async (saveMsg) => {
+      console.log("Message Sent");
+      const id = await saveMsg._id; // Use the saveMsg object to get the _id
+      res.redirect(`/home`);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error Sending Message");
+    });
 });
 
 // adding business details

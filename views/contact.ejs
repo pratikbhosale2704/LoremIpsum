@@ -6,38 +6,38 @@
     <title>Contact Us</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css"
-      rel="stylesheet" 
+      rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
       <h1 class="text-2xl font-bold">AI Marketing</h1>
-      <a href="index.html" class="px-4 py-2 text-white">Home</a>
+      <a href="/home" class="px-4 py-2 text-white">Home</a>
     </nav>
 
     <section class="min-h-screen bg-gray-50 flex items-center justify-center">
       <div class="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 class="text-3xl font-semibold mb-4">Contact Us</h2>
-        <form action="#" method="post">
+        <form action="/home" method="post">
           <input
             type="text"
             name="name"
             placeholder="Your Name"
-            class="p-3 mb-4 w-full border rounded"
+            class="p-3 mb-4 w-full text-black border rounded"
             required
           />
           <input
             type="email"
             name="email"
             placeholder="Your Email"
-            class="p-3 mb-4 w-full border rounded"
+            class="p-3 mb-4 w-full text-black border rounded"
             required
           />
           <textarea
-            name="message"
+            name="msg"
             placeholder="Your Message"
-            class="p-3 mb-4 w-full border rounded"
+            class="p-3 mb-4 w-full text-black border rounded"
             required
           ></textarea>
           <button
