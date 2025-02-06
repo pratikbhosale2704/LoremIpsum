@@ -1,0 +1,151 @@
+Customer ID,Age,Gender,Location,Income Level,Purchase Frequency,Last Purchase Date,Total Spend
+08d7626d,32,Male,Floresberg,Low,43,2024-09-02,2230.81
+f584c60d,48,Female,Port Samanthaside,Medium,6,2024-07-23,3759.38
+da291311,30,Female,Lake Sharonton,Medium,22,2024-09-08,737.98
+37ab4515,42,Female,Port Ryanborough,Medium,1,2024-03-06,2242.71
+db542f43,44,Female,Nealmouth,Medium,44,2024-03-07,169.7
+4fa7ba20,43,Female,Port Julianton,Low,17,2024-02-07,3065.45
+b5ce8f1f,26,Other,Larryfurt,High,22,2024-02-21,3498.17
+b252c545,69,Male,Elliotthaven,Medium,21,2024-05-18,518.18
+8acac9ad,61,Male,New Tara,Low,3,2024-10-25,3737.79
+d12bb7f6,31,Female,North David,Low,20,2024-06-23,1615.5
+c21ccb1f,26,Other,South Kerriburgh,Low,3,2024-11-04,3138.04
+8895b9e2,49,Female,Tapiashire,High,23,2025-01-25,2150.61
+6732fc5d,42,Male,New Tracey,Medium,10,2025-01-26,1174.1
+8f254e52,44,Other,Lake Douglasmouth,Medium,49,2024-12-02,1203.4
+c9a9fe3b,21,Male,Port Cathy,Low,33,2024-02-11,2421.16
+683289d2,68,Male,Lake Wesleyside,Medium,18,2024-12-22,2642.74
+d6bac73a,68,Male,West Johnville,Low,35,2024-09-20,1202.06
+cd24d7ed,38,Male,Garciamouth,Medium,37,2024-05-15,746.11
+2e6fd162,26,Male,Coltontown,High,6,2024-07-03,4863.57
+f07362e6,70,Other,West Angelatown,Low,18,2024-08-02,1995.44
+53f38437,41,Male,Elizabethville,Low,17,2024-12-09,4296.44
+881bc8f3,65,Female,Jenniferton,Medium,3,2024-08-09,1384.03
+cc8449ba,36,Other,South Ronaldberg,Medium,7,2024-09-30,3507.93
+b00914a8,25,Male,Suarezberg,Low,43,2024-12-17,502.92
+74d5c69a,31,Female,Melindaton,High,21,2024-11-04,560.0
+ceefe503,30,Other,Santoshaven,Low,25,2024-10-08,2121.97
+4879232a,45,Male,Rachelview,Medium,42,2024-03-27,323.15
+fad63acc,32,Other,Briantown,Low,45,2024-04-12,2619.48
+b120c7ee,32,Other,Hallstad,High,39,2025-01-13,2571.04
+d535950c,67,Male,New Mark,Medium,50,2024-04-13,2571.98
+1ddd63fd,35,Other,Mariaside,Medium,43,2025-01-25,4576.13
+c5817c69,20,Other,Jenniferborough,High,14,2025-01-13,582.57
+c83a4cd6,61,Female,Harrisberg,High,17,2025-01-13,3463.31
+6f696476,38,Male,Aprilton,Medium,12,2024-02-06,3814.99
+b798f4bc,23,Female,South Christina,High,21,2024-04-21,1562.93
+84b91665,28,Male,Goodwinbury,Medium,36,2024-06-05,2686.38
+9f4c704d,70,Male,Williamsville,Low,48,2024-05-14,3803.42
+e3395674,31,Other,Cynthiabury,Low,17,2024-05-17,731.12
+d2642ba1,23,Female,North Mallorymouth,Low,29,2024-11-09,3371.9
+2a579096,55,Other,East Nancy,High,9,2024-05-07,2308.07
+86b62682,52,Female,Matthewchester,Low,32,2024-12-20,2712.89
+263cc4a0,55,Male,New Heather,Low,4,2024-03-24,1941.85
+a0683450,44,Other,New Kennethfurt,High,22,2024-10-26,3428.67
+b1236848,63,Female,Christopherstad,Medium,16,2024-04-17,1089.0
+dd6681dd,48,Other,Robertview,Medium,33,2024-02-25,245.96
+c0e6239a,46,Other,Whitneystad,Low,39,2024-10-11,2550.11
+bb607b01,54,Other,Reynoldsburgh,Medium,23,2024-10-16,2513.11
+f979e21b,46,Other,South Diana,Low,10,2024-07-20,1431.02
+e14bbb45,59,Other,Jacobhaven,High,2,2025-01-01,4103.49
+cb215fbb,21,Male,Johnville,Low,36,2024-05-29,4922.53
+a2b276fd,70,Female,Lake Elizabethburgh,High,34,2024-02-10,4050.44
+4be4d1d7,51,Male,Gibbsville,Medium,33,2024-07-16,4187.28
+507711b6,49,Female,West Alexandriahaven,High,30,2024-05-25,4938.63
+68d39b23,33,Male,Port Jason,High,15,2024-10-16,3671.92
+a8b176ff,57,Other,Port Monicafurt,Low,42,2024-04-19,2903.46
+11334422,34,Female,Haileyshire,Low,29,2024-02-18,986.95
+0d003ef5,28,Female,Houseville,Medium,6,2024-09-28,3624.08
+93bad21c,49,Female,Aaronburgh,Low,50,2024-02-22,3047.37
+f581c1ab,50,Male,Parkerview,Low,36,2024-05-30,3315.82
+5c17ed40,45,Female,Myersborough,Low,19,2024-07-25,2617.27
+894c8787,61,Other,East Russellport,High,20,2024-03-10,2276.06
+31b068d3,23,Other,Bradleybury,Medium,46,2024-06-29,2566.96
+d9f88ce4,62,Female,North Amber,Medium,5,2024-06-07,1034.63
+32ad9f49,69,Female,Kristafurt,Low,47,2024-09-16,259.68
+bfa83f08,22,Other,Marchaven,Medium,40,2024-10-18,4902.95
+da0c3103,19,Other,South Markland,Medium,33,2024-11-19,721.5
+b4352cf4,44,Male,North Cristianbury,Medium,40,2024-09-04,4673.31
+c1e6f78b,54,Female,Dixonborough,High,33,2025-02-04,3463.98
+6cb0c0e3,60,Other,Catherineshire,Low,43,2024-02-20,2530.23
+91bc00d5,50,Male,Smithton,Medium,20,2024-04-14,3211.91
+18759023,36,Female,Ramirezshire,Low,16,2024-12-28,2105.05
+5c80ada7,61,Male,South Jeremychester,High,35,2024-09-09,4601.73
+3942c01b,31,Female,South Michaelmouth,High,20,2025-01-01,4623.92
+a8516bf7,36,Male,Rowlandhaven,Low,45,2024-10-16,523.84
+27fac271,26,Other,West Stevefort,Medium,45,2024-05-03,718.22
+6a8c71d6,36,Female,Port Meganberg,Low,12,2024-11-16,682.98
+67f852d6,62,Female,Port Shawn,Medium,2,2024-12-18,3161.08
+9663f499,47,Other,Jacquelineshire,Medium,9,2024-09-11,3809.57
+498c9915,67,Other,South Heidi,Low,1,2024-09-09,3353.86
+c32d0354,19,Male,Claudiashire,High,33,2024-07-22,285.9
+0ab32c79,51,Male,Annmouth,High,29,2024-10-28,4683.96
+bc52bce8,61,Female,Loganmouth,Medium,17,2024-05-07,3978.37
+37b74f20,69,Other,Jessicaton,High,13,2024-07-20,2189.61
+639936fc,27,Female,Port Shawnshire,Medium,30,2024-07-03,1941.1
+47842b1c,40,Female,New Adamhaven,High,8,2024-10-31,2052.73
+6577c2e5,25,Other,Tylerport,High,17,2024-06-29,3096.37
+8aa36503,66,Female,South Caitlyn,Medium,24,2024-03-12,2001.96
+5f9f1bbd,47,Male,Dianafort,Medium,1,2024-03-02,316.14
+60b7ef81,67,Other,Alyssaport,Medium,44,2024-10-21,1452.64
+237eb790,44,Male,North Adam,High,42,2024-02-24,1993.29
+2fbde26f,70,Female,North Stevenland,Low,7,2024-05-31,1899.68
+cc34edbf,22,Male,West Mitchell,High,17,2024-04-02,4178.36
+69089373,27,Other,South Tammyfort,Low,37,2025-01-27,4948.55
+54425d31,57,Other,North Julia,High,30,2024-06-16,1007.29
+7221bfec,48,Female,Amandafort,Low,42,2024-10-17,2295.95
+e8c7c150,39,Other,Davidborough,High,45,2024-02-08,535.03
+20861a27,33,Other,New Georgeton,Low,2,2024-02-25,139.74
+a0acd80d,39,Male,Dillonhaven,High,50,2025-01-30,4209.41
+2f51deee,64,Other,Romeroburgh,Medium,25,2024-10-13,4210.25
+0e49fddb,64,Female,Diazstad,High,3,2024-05-16,2844.2
+2397b97c,32,Female,North Robert,Medium,22,2024-12-26,3549.62
+14514885,21,Female,South Randyfort,High,29,2025-02-05,2633.35
+70157f5f,69,Male,New Christopher,Low,44,2024-09-10,361.74
+93a7785c,32,Male,South Coreyborough,Low,49,2024-05-16,4952.99
+69795a66,59,Male,Frederickfurt,High,43,2024-06-24,3684.27
+0c5862e3,24,Male,East Douglastown,High,41,2024-12-23,2999.53
+1eebb5c4,60,Male,West Derekland,Medium,8,2024-07-17,1077.45
+700ba117,49,Other,North Elizabethshire,High,8,2024-03-30,976.72
+bec2886a,29,Male,South Mark,Medium,15,2024-07-06,3618.2
+796cf6a9,35,Female,Lake Tammyport,High,12,2024-09-24,2495.98
+ac9bf984,37,Other,Christopherton,Medium,8,2025-01-14,724.16
+51879b1e,23,Female,Port Scottshire,High,5,2024-12-03,3035.66
+db1accc5,28,Male,Williamchester,Medium,36,2024-11-06,2655.44
+1b37419f,50,Female,South Billyborough,High,42,2025-01-26,4979.78
+c5cf8607,46,Other,North Debbieborough,Medium,35,2024-02-13,1628.24
+9f034490,31,Male,North Judy,High,27,2024-03-18,1712.78
+3e517289,65,Male,Stevenstad,High,8,2024-12-10,4207.7
+ed30ff2b,35,Female,Dickersonburgh,Low,44,2024-07-22,620.81
+d4236289,45,Female,Millermouth,Medium,40,2024-07-08,4895.58
+c11a324e,67,Other,Katherinebury,Medium,17,2024-04-03,2969.26
+8f6052b6,50,Female,East Timothyburgh,Medium,12,2024-07-20,4232.38
+9731daf2,49,Other,Sheliaville,Low,42,2024-03-15,4645.42
+00c22bc7,51,Other,Jamestown,High,5,2024-09-21,3371.76
+c994b219,28,Male,Lake Jameshaven,High,45,2024-07-10,1202.88
+efce7d62,64,Male,Silvaland,Medium,31,2024-10-03,4531.45
+c20c415a,67,Other,West Katiehaven,Low,13,2024-10-02,1123.95
+4cefe277,58,Female,Willieberg,Low,23,2024-07-06,2168.74
+b3d99337,51,Female,Port Jennifermouth,High,34,2024-10-16,3366.09
+f2a9ea4a,48,Other,Hensonmouth,Low,1,2024-05-22,3647.88
+d4bf8e17,43,Male,Port Summerville,Medium,5,2024-05-06,1884.05
+abb79273,66,Male,West Katherineton,Low,41,2024-08-31,667.34
+a11d49f5,58,Female,New Jenniferville,High,41,2024-03-04,3943.46
+ae3febff,53,Other,North Nancyville,Low,47,2024-06-25,2611.23
+1a2b385d,46,Other,West Sheila,Low,10,2024-10-03,3817.03
+5a163266,54,Male,Thomashaven,Low,19,2024-05-13,1511.41
+8e0178b0,30,Male,Stephanieview,Low,43,2024-03-14,4939.84
+d316fa02,44,Other,South Barbaraberg,High,37,2024-05-21,3007.63
+4db670f9,36,Female,New Amandaport,Medium,39,2024-05-13,2184.33
+72132e56,65,Other,Robertohaven,Low,26,2024-11-06,4570.57
+7033bb04,40,Female,Lorettafort,Medium,50,2024-04-27,2104.5
+e3d8ac1c,22,Male,South Karen,Medium,35,2024-08-13,4786.14
+d46d8cb4,70,Other,Harrisport,High,8,2024-08-30,2189.71
+4425a85e,33,Female,Johnsonport,High,11,2024-08-01,3696.48
+d108b267,53,Male,Wilsonmouth,High,31,2024-09-11,3344.09
+11592e7d,20,Other,Jacksonmouth,High,8,2024-06-03,1860.53
+1d46d8a9,43,Female,Espinozaburgh,High,6,2025-01-30,1776.19
+3c48c56e,37,Female,North Jonchester,Low,1,2024-12-16,3702.25
+86f3b814,65,Male,Taylorland,High,47,2025-01-06,4920.23
+0ca7f216,62,Male,New Susanborough,Medium,10,2024-09-05,3140.19
+ab6bba2d,18,Female,North Jessicachester,High,22,2024-07-02,1332.72

@@ -11,8 +11,11 @@ const bodyParser = require("body-parser");
 const fsp = require("fs").promises;
 const fs = require("fs");
 const csv = require("csv-parser");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 // Import multer for handling file uploads
 const multer = require("multer");
+const User = require("./models/Users.js");
 
 // Set up file upload middleware
 const upload = multer({ dest: "uploads/" });
@@ -36,49 +39,85 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/marketing");
 }
 
-// // Replace with your AI model API endpoint
-// const AI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"; // Example: OpenAI API
+// Logout route
+app.post("/logout", (req, res) => {
+  res.clearCookie("authToken"); // Clear the auth token cookie
+  res.redirect("/login"); // Redirect to the login page
+});
 
-// // Replace with your AI model API key
-// const AI_API_KEY = "AIzaSyDAXwZ7VzChN5CdcOpH6OoHV4FRZXqrY5w"; // Replace with your actual API key
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
 
-// // Route to handle requests from the frontend
-// app.post("/predict", async (req, res) => {
-//   try {
-//     const userInput = req.body.input; // Get input from the frontend
-
-//     // Call the AI model API (e.g., OpenAI)
-//     const response = await axios.post(
-//       AI_API_URL,
-//       {
-//         model: "text-davinci-003", // Example: OpenAI model
-//         prompt: `Generate a marketing campaign for: ${userInput}`, // Customize the prompt
-//         max_tokens: 150, // Adjust based on your needs
-//         temperature: 0.7, // Adjust creativity level
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${AI_API_KEY}`,
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-
-//     // Extract the AI model's output
-//     const aiOutput = response.data.choices[0].text.trim();
-
-//     // Send the output back to the frontend
-//     res.json({ prediction: aiOutput });
-//   } catch (error) {
-//     console.error("Error calling AI model API:", error);
-//     res.status(500).json({ error: "Failed to process request" });
-//   }
-// });
+app.get("/signup", (req, res) => {
+  res.render("signup.ejs");
+});
 
 // Gemini API endpoint and API key
 const GEMINI_API_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 const GEMINI_API_KEY = "AIzaSyDAXwZ7VzChN5CdcOpH6OoHV4FRZXqrY5w"; // Replace with your actual API key
+
+// Login Route
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find the user in the database
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).send("Invalid credentials");
+    }
+
+    // Compare password with the hashed one in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).send("Invalid credentials");
+    }
+
+    // If password is valid, just send a success message or the user data
+    // res.send("Login successful");
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Example of a protected route
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard.ejs");
+});
+// app.get("/dashboard", async (req, res) => {
+//   //   let busiId = req.params;
+//   //   const business = await Busi.findById(busiId);
+//   //   res.render("dashboard.ejs", { business });
+//   res.render("dashboard.ejs");
+//   //   res.send("data stored");
+// });
+
+// Sign Up Route
+app.post("/signup", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send("Username already taken");
+    }
+
+    const newUser = new User({ username, password });
+    await newUser.save();
+
+    // res.status(201).send("User created successfully");
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Sign Up error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Middleware for protecting routes
 
 // Route to render the Predictive Insights page
 app.get("/prediction", (req, res) => {
@@ -126,13 +165,13 @@ app.get("/personalizedCamp", async (req, res) => {
   res.render("personalizedCamp.ejs");
 });
 
-app.get("/dashboard", async (req, res) => {
-  //   let busiId = req.params;
-  //   const business = await Busi.findById(busiId);
-  //   res.render("dashboard.ejs", { business });
-  res.render("dashboard.ejs");
-  //   res.send("data stored");
-});
+// app.get("/dashboard", async (req, res) => {
+//   //   let busiId = req.params;
+//   //   const business = await Busi.findById(busiId);
+//   //   res.render("dashboard.ejs", { business });
+//   res.render("dashboard.ejs");
+//   //   res.send("data stored");
+// });
 
 app.post("/home", async (req, res) => {
   let { name, email, msg } = req.body;
@@ -559,36 +598,29 @@ function parseCSV(filePath) {
 // ✅ Function to call Gemini API for retention predictions
 async function predictRetention(data) {
   try {
-    // Prepare the prompt for the Gemini API
-    const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies(answer only in one-two lines):
-      ${JSON.stringify(data)}
-      Provide the output in the following JSON format:
-      {
-        "engagementScore": "A percentage score (0-100)",
-        "churnLikelihood": "A percentage score (0-100)",
-        "retentionStrategies": ["Strategy 1", "Strategy 2", "Strategy 3"]
-      }`;
+    // 🔹 Construct AI prompt
+    // console.log("Data Sent to AI:", JSON.stringify(data, null, 2)); // ✅ Debugging log
+    const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies (answer only in one-two lines):
+    ${JSON.stringify(data, null, 2)}
+    Provide the output strictly in this JSON format (without explanations or additional text):
+    {
+      "engagementScore": "A percentage score (0-100)",
+      "churnLikelihood": "A percentage score (0-100)",
+      "retentionStrategies": ["Strategy 1", "Strategy 2", "Strategy 3"]
+    }`;
 
+    // 🔹 Make API request
     const response = await axios.post(
       `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
       {
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
+        contents: [{ parts: [{ text: prompt }] }],
       },
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       }
     );
 
+    // 🔹 Check if AI response is valid
     if (!response.data?.candidates?.length) {
       throw new Error("Invalid response from Gemini API");
     }
@@ -596,13 +628,26 @@ async function predictRetention(data) {
     const aiOutput = response.data.candidates[0].content.parts[0].text.trim();
     console.log("Raw AI Output:", aiOutput); // ✅ Debugging log
 
-    // ✅ FIX: Handle invalid JSON parsing errors
     let predictionResult;
     try {
+      // ✅ Attempt to parse AI response as JSON
       predictionResult = JSON.parse(aiOutput);
     } catch (parseError) {
       console.error("JSON Parsing Error:", parseError);
-      return { error: "Invalid response format from Gemini API" };
+
+      // 🔹 Fallback Strategy Extraction
+      const strategiesMatch = aiOutput.match(/"(.*?)"/g);
+      const extractedStrategies = strategiesMatch
+        ? strategiesMatch.map((s) => s.replace(/"/g, ""))
+        : [];
+
+      predictionResult = {
+        engagementScore: "N/A",
+        churnLikelihood: "N/A",
+        retentionStrategies: extractedStrategies.length
+          ? extractedStrategies
+          : ["Unable to extract valid strategies."],
+      };
     }
 
     return predictionResult;
