@@ -8,18 +8,18 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
       <h1 class="text-2xl font-bold">AI Marketing</h1>
       <div>
-        <a href="http://localhost:8080/home" class="px-4 py-2 text-white"
-          >Home</a
+        <a href="http://localhost:8080/dashboard" class="px-4 py-2 text-white"
+          >Dashboard</a
         >
         <a href="http://localhost:8080/pricing" class="px-4 py-2 text-white"
           >Pricing</a
@@ -125,13 +125,11 @@
 
         <!-- Display Prediction Results -->
         <% if (predictionResult) { %>
-        <div class="mt-8 p-6 bg-blue-50 rounded-lg">
+        <div class="mt-8 p-6 bg-blue-50 rounded-lg" id="black-color">
           <h3 class="text-2xl font-semibold mb-4">Prediction Results</h3>
           <p class="text-lg">
             The predicted success rate for your campaign is:
-            <span class="font-bold text-blue-600"
-              ><%= predictionResult %>%</span
-            >
+            <span class="font-bold text-600"><%= predictionResult %>%</span>
           </p>
         </div>
         <% } %>

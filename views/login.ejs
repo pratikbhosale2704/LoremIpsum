@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    const express = require('express'); const mongoose = require('mongoose');
+    const bcrypt = require('bcrypt'); const User = require('./models/user');
+    const app = express(); app.use(express.urlencoded({ extended: true }));
+    app.use(express.json()); // Connect to MongoDB
+    mongoose.connect('mongodb://127.0.0.1:27017/mongodbcoll', { useNewUrlParser:
+    true, useUnifiedTopology: true, }) .then(() => console.log('Connected to
+    MongoDB')) .catch(err => console.error('Could not connect to MongoDB',
+    err)); // ... (your existing routes and middleware) // Login route
+    app.post('/login', async (req, res) => { try { const { username, password }
+    = req.body; // Find the user by username or email const user = await
+    User.findOne({ $or: [{ username }, { email: username }] }); if (!user) {
+    return res.status(400).render('login', { error: 'Invalid username or
+    password' }); } // Check if the password is correct const isValidPassword =
+    await user.isValidPassword(password); if (!isValidPassword) { return
+    res.status(400).render('login', { error: 'Invalid username or password' });
+    } // TODO: Implement session management here (e.g., using express-session)
+    // Redirect to dashboard on successful login res.redirect('/dashboard'); }
+    catch (error) { console.error('Login error:', error);
+    res.status(500).render('login', { error: 'An error occurred during login'
+    }); } }); // Registration route (you'll need to create a registration.ejs
+    view) app.post('/register', async (req, res) => { try { const { username,
+    email, password } = req.body; // Check if user already exists const
+    existingUser = await User.findOne({ $or: [{ username }, { email }] }); if
+    (existingUser) { return res.status(400).render('register', { error:
+    'Username or email already exists' }); } // Create new user const newUser =
+    new User({ username, email, password }); await newUser.save();
+    res.redirect('/login'); } catch (error) { console.error('Registration
+    error:', error); res.status(500).render('register', { error: 'An error
+    occurred during registration' }); } }); // ... (rest of your code)
+    app.listen(8080, () => { console.log('Server is listening on port 8080');
+    });
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - AI Marketing Solutions</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="bg-blue-600 p-4 flex justify-between items-center text-white">
+      <h1 class="text-2xl font-bold">AI Marketing</h1>
+      <div>
+        <a href="http://localhost:8080/home" class="px-4 py-2 text-white"
+          >Home</a
+        >
+        <a href="http://localhost:8080/pricing" class="px-4 py-2 text-white"
+          >Pricing</a
+        >
+        <a href="http://localhost:8080/about" class="px-4 py-2 text-white"
+          >About Us</a
+        >
+        <a href="http://localhost:8080/contact" class="px-4 py-2 text-white"
+          >Contact</a
+        >
+      </div>
+    </nav>
+
+    <section class="flex items-center justify-center min-h-screen bg-gray-100">
+      <div
+        class="text-center p-10 bg-white rounded-lg shadow-lg w-full max-w-md"
+      >
+        <h2 class="text-4xl font-semibold mb-6">Login</h2>
+        <form action="/login" method="POST" class="space-y-6">
+          <div class="text-left">
+            <label for="username" class="block text-lg font-medium mb-2"
+              >Username/Email</label
+            >
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <div class="text-left">
+            <label for="password" class="block text-lg font-medium mb-2"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="bg-blue-600 text-white p-4 text-center">
+      <p>&copy; 2025 AI Marketing Solutions. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

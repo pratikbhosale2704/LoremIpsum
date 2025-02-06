@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const axios = require("axios");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const fsp = require("fs").promises;
 const fs = require("fs");
 const csv = require("csv-parser");
 // Import multer for handling file uploads
@@ -272,12 +273,99 @@ app.get("/retention", (req, res) => {
   res.render("retention.ejs", { predictionResult: null });
 });
 
-// // Route to handle file uploads and generate predictions
+app.post(
+  "/predict-campaign",
+  upload.single("combinedData"),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).send("The combined data file is required.");
+      }
+
+      // Read the uploaded file content
+      const fileData = await fsp.readFile(req.file.path, "utf-8");
+
+      // Call the Gemini API for predictions
+      const predictionResult = await predictCampaignSuccess(fileData);
+
+      // Render the prediction page with results
+      res.render("prediction", { predictionResult });
+    } catch (error) {
+      console.error("Error processing prediction:", error);
+      res.status(500).send("Failed to process prediction");
+    }
+  }
+);
+
+// Function to call the Gemini API for campaign predictions
+async function predictCampaignSuccess(fileData) {
+  try {
+    // Construct prompt with actual file content
+    const prompt = `Analyze the following combined campaign data and customer demographics to predict campaign success(answer only in one-two line):
+    ${fileData}
+    Provide a prediction score (0-100) and a brief explanation.`;
+
+    const response = await axios.post(
+      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
+      {
+        contents: [{ parts: [{ text: prompt }] }],
+      },
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    // Validate API response
+    if (
+      !response.data ||
+      !response.data.candidates ||
+      response.data.candidates.length === 0
+    ) {
+      throw new Error("Invalid response from Gemini API");
+    }
+
+    return response.data.candidates[0].content.parts[0].text.trim();
+  } catch (error) {
+    console.error("Error calling Gemini API:", error);
+    return "Prediction failed. Please try again.";
+  }
+}
+
+app.post(
+  "/predict-campaign",
+  upload.single("combinedData"),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).send("The combined data file is required.");
+      }
+
+      // ✅ FIXED: Correctly reading file content
+      const fileData = await fsp.readFile(req.file.path, "utf-8");
+
+      // Call Gemini API for predictions
+      const predictionResult = await predictCampaignSuccess(fileData);
+
+      // Render the prediction page with results
+      res.render("prediction", { predictionResult });
+    } catch (error) {
+      console.error("Error processing prediction:", error);
+      res.status(500).send("Failed to process prediction");
+    }
+  }
+);
+
 // app.post(
 //   "/predict-retention",
 //   upload.single("customerData"),
 //   async (req, res) => {
 //     try {
+//       // Log the uploaded file for debugging
+//       console.log("Uploaded file:", req.file);
+
+//       // Check if file is uploaded
+//       if (!req.file) {
+//         return res.status(400).send("Please upload a valid file.");
+//       }
+
 //       const customerDataPath = req.file.path;
 
 //       // Validate file type
@@ -291,7 +379,7 @@ app.get("/retention", (req, res) => {
 //         .pipe(csv())
 //         .on("data", (data) => results.push(data))
 //         .on("end", async () => {
-//           // Call the Gemini API to generate predictions
+//           // Call the Gemini API to generate retention predictions
 //           const predictionResult = await predictRetention(results);
 
 //           // Render the retention page with the prediction result
@@ -304,11 +392,55 @@ app.get("/retention", (req, res) => {
 //   }
 // );
 
-// // Function to call the Gemini API for predictions
+// app.post(
+//   "/predict-retention",
+//   upload.single("customerData"),
+//   async (req, res) => {
+//     try {
+//       console.log("Uploaded file:", req.file);
+
+//       if (!req.file) {
+//         return res.status(400).send("Please upload a valid file.");
+//       }
+
+//       if (req.file.mimetype !== "text/csv") {
+//         return res.status(400).send("Please upload a valid CSV file.");
+//       }
+
+//       const customerDataPath = req.file.path;
+
+//       // ✅ FIX: Convert CSV parsing into a Promise to ensure Express waits
+//       const results = await parseCSV(customerDataPath);
+
+//       // Call Gemini API for predictions
+//       const predictionResult = await predictRetention(results);
+
+//       // Render the retention page with results
+//       res.render("retention", { predictionResult });
+//     } catch (error) {
+//       console.error("Error processing prediction:", error);
+//       res.status(500).send("Failed to process prediction");
+//     }
+//   }
+// );
+
+// // ✅ Helper function to read CSV using Promises
+// function parseCSV(filePath) {
+//   return new Promise((resolve, reject) => {
+//     const results = [];
+//     fs.createReadStream(filePath)
+//       .pipe(csv())
+//       .on("data", (data) => results.push(data))
+//       .on("end", () => resolve(results))
+//       .on("error", (error) => reject(error));
+//   });
+// }
+
+// // Function to call the Gemini API for retention predictions
 // async function predictRetention(data) {
 //   try {
 //     // Prepare the prompt for the Gemini API
-//     const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies:
+//     const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies(answer only in one-two line):
 //       ${JSON.stringify(data)}
 //       Provide the output in the following JSON format:
 //       {
@@ -349,213 +481,35 @@ app.get("/retention", (req, res) => {
 //   }
 // }
 
-// // Route to handle file uploads and generate predictions
-// app.post(
-//   "/predict-campaign",
-//   upload.fields([
-//     // Accepts multiple file uploads
-//     { name: "campaignData", maxCount: 1 },
-//     { name: "customerDemographics", maxCount: 1 },
-//   ]),
-//   async (req, res) => {
-//     try {
-//       // Check if files are uploaded
-//       if (!req.files["campaignData"] || !req.files["customerDemographics"]) {
-//         return res.status(400).send("Both files are required.");
-//       }
-
-//       // Process the uploaded files
-//       const campaignDataPath = req.files["campaignData"][0].path;
-//       const customerDemographicsPath =
-//         req.files["customerDemographics"][0].path;
-
-//       // Call the Gemini API to generate predictions
-//       const predictionResult = await predictCampaignSuccess(
-//         campaignDataPath,
-//         customerDemographicsPath
-//       );
-
-//       // Render the prediction page with the prediction result
-//       res.render("prediction", { predictionResult });
-//     } catch (error) {
-//       console.error("Error processing prediction:", error);
-//       res.status(500).send("Failed to process prediction");
-//     }
-//   }
-// );
-
-// // Function to call the Gemini API for campaign predictions
-// async function predictCampaignSuccess(
-//   campaignDataPath,
-//   customerDemographicsPath
-// ) {
-//   try {
-//     // Simulate processing the uploaded files (replace with actual logic)
-//     const prompt = `Analyze the following campaign data and customer demographics to predict campaign success:
-//       - Campaign Data: ${campaignDataPath}
-//       - Customer Demographics: ${customerDemographicsPath}
-//       Provide a prediction score (0-100) and a brief explanation.`;
-
-//     const response = await axios.post(
-//       `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
-//       {
-//         contents: [
-//           {
-//             parts: [
-//               {
-//                 text: prompt,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-
-//     // Extract the AI model's output
-//     const aiOutput = response.data.candidates[0].content.parts[0].text.trim();
-//     return aiOutput; // Return the prediction result
-//   } catch (error) {
-//     console.error("Error calling Gemini API:", error);
-//     throw error;
-//   }
-// }
-
-app.post(
-  "/predict-campaign",
-  upload.single("combinedData"), // Accepts a single file named 'combinedData'
-  async (req, res) => {
-    try {
-      // Check if the file is uploaded
-      if (!req.file) {
-        return res.status(400).send("The combined data file is required.");
-      }
-
-      // Process the uploaded file
-      const combinedDataPath = req.file.path; // Path to the uploaded file
-
-      // Call the Gemini API to generate predictions
-      const predictionResult = await predictCampaignSuccess(combinedDataPath);
-
-      // Render the prediction page with the prediction result
-      res.render("prediction", { predictionResult });
-    } catch (error) {
-      console.error("Error processing prediction:", error);
-      res.status(500).send("Failed to process prediction");
-    }
-  }
-);
-
-// Function to call the Gemini API for campaign predictions
-async function predictCampaignSuccess(combinedDataPath) {
-  try {
-    // Simulate processing the uploaded file (replace with actual logic)
-    const prompt = `Analyze the following combined campaign data and customer demographics to predict campaign success:
-      - Combined Data: ${combinedDataPath}
-      Provide a prediction score (0-100) and a brief explanation.`;
-
-    const response = await axios.post(
-      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
-      {
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // Extract the AI model's output
-    const aiOutput = response.data.candidates[0].content.parts[0].text.trim();
-    return aiOutput; // Return the prediction result
-  } catch (error) {
-    console.error("Error calling Gemini API:", error);
-    throw error;
-  }
-}
-
-// Route to handle file uploads for retention prediction
-// app.post(
-//   "/predict-retention",
-//   upload.single("customerData"),
-//   async (req, res) => {
-//     try {
-//       // Check if file is uploaded
-//       if (!req.file) {
-//         return res.status(400).send("Please upload a valid file.");
-//       }
-
-//       const customerDataPath = req.file.path;
-
-//       // Validate file type
-//       if (req.file.mimetype !== "text/csv") {
-//         return res.status(400).send("Please upload a valid CSV file.");
-//       }
-
-//       // Read and process the CSV file
-//       const results = [];
-//       fs.createReadStream(customerDataPath)
-//         .pipe(csv())
-//         .on("data", (data) => results.push(data))
-//         .on("end", async () => {
-//           // Call the Gemini API to generate retention predictions
-//           const predictionResult = await predictRetention(results);
-
-//           // Render the retention page with the prediction result
-//           res.render("retention", { predictionResult });
-//         });
-//     } catch (error) {
-//       console.error("Error processing prediction:", error);
-//       res.status(500).send("Failed to process prediction");
-//     }
-//   }
-// );
-
 app.post(
   "/predict-retention",
   upload.single("customerData"),
   async (req, res) => {
     try {
-      // Log the uploaded file for debugging
       console.log("Uploaded file:", req.file);
 
-      // Check if file is uploaded
       if (!req.file) {
         return res.status(400).send("Please upload a valid file.");
       }
 
-      const customerDataPath = req.file.path;
-
-      // Validate file type
       if (req.file.mimetype !== "text/csv") {
         return res.status(400).send("Please upload a valid CSV file.");
       }
 
-      // Read and process the CSV file
-      const results = [];
-      fs.createReadStream(customerDataPath)
-        .pipe(csv())
-        .on("data", (data) => results.push(data))
-        .on("end", async () => {
-          // Call the Gemini API to generate retention predictions
-          const predictionResult = await predictRetention(results);
+      const customerDataPath = req.file.path;
 
-          // Render the retention page with the prediction result
-          res.render("retention", { predictionResult });
-        });
+      // ✅ FIX: Convert CSV parsing into a Promise to ensure Express waits
+      const results = await parseCSV(customerDataPath);
+
+      console.log("Parsed CSV Data:", results); // ✅ Debugging log
+
+      // Call Gemini API for predictions
+      const predictionResult = await predictRetention(results);
+
+      console.log("Prediction Result:", predictionResult); // ✅ Debugging log
+
+      // Render the retention page with results
+      res.render("retention", { predictionResult });
     } catch (error) {
       console.error("Error processing prediction:", error);
       res.status(500).send("Failed to process prediction");
@@ -563,11 +517,28 @@ app.post(
   }
 );
 
-// Function to call the Gemini API for retention predictions
+// ✅ Helper function to read CSV using Promises
+function parseCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => results.push(data))
+      .on("end", () => {
+        if (results.length === 0) {
+          return reject(new Error("CSV file is empty or invalid"));
+        }
+        resolve(results);
+      })
+      .on("error", (error) => reject(error));
+  });
+}
+
+// ✅ Function to call Gemini API for retention predictions
 async function predictRetention(data) {
   try {
     // Prepare the prompt for the Gemini API
-    const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies:
+    const prompt = `Analyze the following customer data to predict engagement, churn likelihood, and generate retention strategies(answer only in one-two lines):
       ${JSON.stringify(data)}
       Provide the output in the following JSON format:
       {
@@ -596,14 +567,25 @@ async function predictRetention(data) {
       }
     );
 
-    // Extract the AI model's output
-    const aiOutput = response.data.candidates[0].content.parts[0].text.trim();
+    if (!response.data?.candidates?.length) {
+      throw new Error("Invalid response from Gemini API");
+    }
 
-    // Parse the AI output into a JSON object
-    const predictionResult = JSON.parse(aiOutput);
+    const aiOutput = response.data.candidates[0].content.parts[0].text.trim();
+    console.log("Raw AI Output:", aiOutput); // ✅ Debugging log
+
+    // ✅ FIX: Handle invalid JSON parsing errors
+    let predictionResult;
+    try {
+      predictionResult = JSON.parse(aiOutput);
+    } catch (parseError) {
+      console.error("JSON Parsing Error:", parseError);
+      return { error: "Invalid response format from Gemini API" };
+    }
+
     return predictionResult;
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    throw error;
+    return { error: "Prediction failed. Please try again." };
   }
 }

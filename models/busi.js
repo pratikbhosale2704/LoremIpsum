@@ -11,6 +11,8 @@ const busiSchema = new mongoose.Schema({
   },
   busidescri: {
     type: String,
+    required: true, // Change this line
+
     maxLength: 70,
   },
   created_at: {
